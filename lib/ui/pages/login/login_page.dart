@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:unitask/app/extensions/sized_box_extension.dart';
+import 'package:unitask/app/extensions/snackbar_extension.dart';
+import 'package:unitask/app/router/app_page.dart';
 import 'package:unitask/ui/common/label_text_field.dart';
 import 'package:unitask/ui/common/text_divider.dart';
 
@@ -42,13 +45,16 @@ class _LoginPageState extends State<LoginPage> {
                 icon: LucideIcons.lockKeyhole,
                 label: '비밀번호',
                 hintText: '000000',
+                enableObscure: true,
               ),
 
               //패스워드 잊음
               Align(
                 alignment: .centerRight,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.showSnackbar('곧 기능이 출시합니다!');
+                  },
                   child: Text('비밀번호를 잊으셨나요?'),
                 ),
               ),
@@ -76,7 +82,14 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: .center,
                 children: [
                   Text('계정이 없으신가요?'),
-                  TextButton(onPressed: () {}, child: Text('회원가입')),
+                  TextButton(
+                    onPressed: () {
+                      context.pushNamed(
+                        AppPage.signup.name,
+                      ); //goNamed는 스택이 쌓이지 않는 방식으로 화면 전환이 된다.
+                    },
+                    child: Text('회원가입'),
+                  ),
                 ],
               ),
             ],

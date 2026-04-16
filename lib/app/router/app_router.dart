@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:unitask/app/router/app_page.dart';
 import 'package:unitask/ui/pages/login/login_page.dart';
+import 'package:unitask/ui/pages/signup/signup_page.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/login',
@@ -8,7 +9,12 @@ final appRouter = GoRouter(
     GoRoute(
       name: AppPage.login.name,
       path: AppPage.login.path,
-      builder: (context, state) => LoginPage(),
+      builder: (context, state) => const LoginPage(),
+    ),
+    GoRoute(
+      name: AppPage.signup.name,
+      path: AppPage.signup.path,
+      builder: (context, state) => const SignupPage(),
     ),
   ],
 );
