@@ -69,6 +69,16 @@ class _LoginPageState extends State<LoginPage> {
               20.heightBox,
               //또는
               TextDivider(),
+
+              20.heightBox,
+              //회원가입
+              Row(
+                mainAxisAlignment: .center,
+                children: [
+                  Text('계정이 없으신가요?'),
+                  TextButton(onPressed: () {}, child: Text('회원가입')),
+                ],
+              ),
             ],
           ),
         ),
