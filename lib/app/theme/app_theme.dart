@@ -3,7 +3,15 @@ import 'package:flutter/material.dart';
 class AppTheme {
   static ThemeData get light => ThemeData.light(useMaterial3: true).copyWith(
     scaffoldBackgroundColor: Colors.white,
-    appBarTheme: AppBarTheme(backgroundColor: Colors.white),
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      titleTextStyle: TextStyle(
+        fontWeight: .bold,
+        color: Colors.black,
+        fontSize: 24,
+      ),
+    ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       foregroundColor: Colors.white,
       backgroundColor: Color(0xFF3B82F6),
@@ -35,7 +43,15 @@ class AppTheme {
 
   static ThemeData get dark => ThemeData.dark(useMaterial3: true).copyWith(
     scaffoldBackgroundColor: Color(0xFF0F172A), // 거의 블랙 + 살짝 블루톤
-    appBarTheme: AppBarTheme(backgroundColor: Color(0xFF0F172A)),
+    appBarTheme: AppBarTheme(
+      backgroundColor: Color(0xFF0F172A),
+      foregroundColor: Colors.white,
+      titleTextStyle: TextStyle(
+        fontWeight: .bold,
+        color: Colors.white,
+        fontSize: 24,
+      ),
+    ),
     brightness: Brightness.dark,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
