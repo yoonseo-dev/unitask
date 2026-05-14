@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:unitask/app/extensions/sized_box_extension.dart';
-import 'package:unitask/app/extensions/snackbar_extension.dart';
 import 'package:unitask/app/router/app_page.dart';
-import 'package:unitask/services/api_service.dart';
+import 'package:unitask/core/extensions/build_context_extension.dart';
+import 'package:unitask/core/extensions/sized_box_extension.dart';
+import 'package:unitask/core/modles/result.dart';
+import 'package:unitask/features/auth/auth_provider.dart';
 import 'package:unitask/ui/common/label_text_field.dart';
 import 'package:unitask/ui/common/text_divider.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   final TextEditingController _emailController = .new();
   final _pwController = TextEditingController();
   //둘 다 동일하게 동작한다.
@@ -35,26 +37,24 @@ class _LoginPageState extends State<LoginPage> {
       return context.showSnackbar('이메일 또는 비밀번호를 입력해주세요', isError: true);
     }
 
-    final response = await ApiService.login(email: email, password: password);
+    final result = await ref
+        .read(authProvider.notifier)
+        .login(email: email, password: password);
 
-    //로그인 실패
-    if (response == null) {
-      if (mounted) {
-        context.showSnackbar('로그인을 실패했습니다', isError: true);
-      }
-      return;
+    // 메인 화면 이동
+    switch (result) {
+      case Success():
+        if (mounted) context.goNamed(AppPage.home.name);
+      case Failure(:final exception):
+        if (mounted) {
+          context.showSnackbar(exception.toString(), isError: true);
+        }
     }
-
-    // TODO: 로그인 성공 => 메인 화면 이동
-    if (mounted) {
-      context.goNamed(AppPage.home.name);
-    }
-
-    debugPrint('$response');
   }
 
   @override
   Widget build(BuildContext context) {
+    final loading = ref.watch(authProvider).isLoading;
     return Scaffold(
       body: Padding(
         padding: .all(20),
@@ -105,9 +105,17 @@ class _LoginPageState extends State<LoginPage> {
                 //로그인 버튼
                 SizedBox(
                   width: .infinity,
-                  child: ElevatedButton(
-                    onPressed: _onLogin,
-                    child: Text(
+                  child: ElevatedButton.icon(
+                    onPressed: loading ? null : _onLogin,
+                    icon: loading
+                        ? SizedBox.square(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : null,
+                    label: Text(
                       '로그인',
                       style: TextStyle(fontWeight: .bold, fontSize: 20),
                     ),
