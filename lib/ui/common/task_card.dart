@@ -36,6 +36,7 @@ class TaskCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Column(
+        crossAxisAlignment: .stretch,
         children: [
           Row(
             mainAxisAlignment: .spaceBetween,
