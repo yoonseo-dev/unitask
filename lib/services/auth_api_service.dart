@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:unitask/app/app_strings.dart';
@@ -9,7 +8,8 @@ import 'package:unitask/models/auth_data.dart';
 class AuthApiService {
   final String _loginUrl = '${AppStrings.apiHostUrl}/students/login';
   final String _signupUrl = '${AppStrings.apiHostUrl}/students/signup';
-  //회원가입
+
+  //회원가입 
   Future<Result<void>> signup({
     required String email,
     required String password,
